@@ -36,9 +36,11 @@ It allows users to submit feedback through a simple form and enables administrat
    ```bash
    pip install -r requirements.txt
 3. **Run the application**
+   ```bash
     python app.py
 4. **Open the application in your browser**
     http://127.0.0.1:5000
 
 👤 Author
 Mayasar Ahmad Ganie   
+
