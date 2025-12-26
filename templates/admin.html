@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Admin Dashboard</h3>
+        <a href="/logout" class="btn btn-secondary btn-sm">Logout</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                <strong>Total Feedback:</strong> {{ total }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-success">
+                <strong>Average Rating:</strong> {{ average }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Button -->
+    <a href="/export" class="btn btn-success btn-sm mb-3">
+        Export Feedback (CSV)
+    </a>
+
+    <!-- Feedback Table -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Rating</th>
+                <th>Comments</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in feedback %}
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>
+                    <a href="/edit/{{ row[0] }}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+                    <a href="/delete/{{ row[0] }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this feedback?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Chart -->
+    <div class="mt-4">
+        <h5>Rating Distribution</h5>
+        <img src="{{ url_for('static', filename='ratings.png') }}"
+             class="img-fluid"
+             style="max-width:400px;">
+    </div>
+
+</div>
+
+</body>
+
+</html>
+<a href="/logout">Logout</a>
+<br><a href="/export">Export Feedback to CSV</a>
+
+
