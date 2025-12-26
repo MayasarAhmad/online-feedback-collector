@@ -3,6 +3,8 @@ import sqlite3
 import csv
 import matplotlib.pyplot as plt
 import os
+from flask import send_file
+
 
 from flask import Flask, render_template, request, redirect
 import sqlite3
@@ -114,12 +116,19 @@ def export_csv():
     data = cursor.fetchall()
     conn.close()
 
-    with open("feedback.csv", "w", newline="", encoding="utf-8") as file:
+    file_path = "feedback.csv"
+
+    with open(file_path, "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["ID", "Name", "Email", "Rating", "Comments"])
         writer.writerows(data)
 
-    return "CSV file exported successfully!"
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="feedback.csv"
+    )
+
 @app.route("/delete/<int:id>")
 def delete_feedback(id):
     if not session.get("admin"):
